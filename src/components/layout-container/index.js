@@ -10,8 +10,8 @@ const LayoutContainer = () => (
       </div>
       <nav className="nav-header">
         <Link className="nav-header__link" to='/'>Personagens </Link>
-        <Link className="nav-header__link" to='informativo'>Episódios </Link>
-        <Link className="nav-header__link" to='administrativo'>Localizacao </Link>
+        <Link className="nav-header__link" to='/episodio'>Episódios </Link>
+        <Link className="nav-header__link" to='/localizacao'>Localizacao </Link>
       </nav>
     </header>
     <main>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import InfoCard from "../../shared/info-card";
 import SectionWrapper from "../../shared/section-wrapper";
+import CustomSpinner from "../../shared/spinner/Spinner";
 import ListTable from "../../shared/table";
 import http from "../../utils/http";
 import "./DetailCharacter.css";
@@ -20,7 +21,6 @@ const DetailCharacter = () => {
   };
 
   const handleNext = (row) => {
-    // console.log(id, 'log');
     navigate(`/episodio/${row[0]}`);
   };
 
@@ -36,11 +36,14 @@ const DetailCharacter = () => {
       }
     };
     getCharacter();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (isLoading) {
-    return "carregando";
+    return (
+      <SectionWrapper>
+        <CustomSpinner/>
+      </SectionWrapper>
+    );
   }
 
   return (

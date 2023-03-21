@@ -4,20 +4,20 @@ import InfoCardList from "../../shared/infor-card-list";
 import SectionWrapper from "../../shared/section-wrapper";
 import CustomSpinner from "../../shared/spinner/Spinner";
 import http from "../../utils/http";
-import "./CharacterList.css";
+import "./EpisodeList.css";
 
-const CharacterList = () => {
-  const [character, setCharacter] = useState([]);
+const EpisodeList = () => {
+  const [episode, setEpisode] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    const getCharacter = async () => {
+    const getEpisode = async () => {
       try {
         setIsLoading(true);
         setHasError(false);
-        const { data } = await http.get("/character");
-        setCharacter(data.results);
+        const { data } = await http.get("/episode");
+        setEpisode(data.results);
       } catch (erro) {
         if (erro.response.status === 404) {
           setHasError(true);
@@ -26,7 +26,7 @@ const CharacterList = () => {
         setIsLoading(false);
       }
     };
-    getCharacter();
+    getEpisode();
   }, []);
 
   if (isLoading) {
@@ -40,13 +40,12 @@ const CharacterList = () => {
   return (
     <SectionWrapper>
       <InfoCardList>
-        {hasError && <span>Nenhum personagem encontrado</span>}
-        {character?.length ? (
-          character.map((item) => (
+        {hasError && <span>Nenhum episódio encontrado</span>}
+        {episode?.length ? (
+          episode.map((item) => (
             <InfoCard
-              imgUrl={item.image}
-              imgAlt={`${item.name} imagem`}
-              source={`/personagem/${item.id}`}
+              type={'card-text'}
+              source={`/episodio/${item.id}`}
               isClickable={true}
               key={item.id}
             >
@@ -54,21 +53,16 @@ const CharacterList = () => {
                 <h5 className="title">
                   {item.name}
                 </h5>
-                <div className="content-row">
-                  <div className={`status ${item.status==='human' && 'green'}`}></div>
-                  <span>{item.status}</span>
-                  <span>{item.species}</span>
-                </div>
-                <span>Origem: {item.origin?.name ?? "--"}</span>
+                <span>Data de Estréia: {item.air_date ?? "--"}</span>
               </div>
             </InfoCard>
           ))
         ) : (
-          <p>Nenhum personagem encontrado</p>
+          <p>Nenhum episódio encontrado</p>
         )}
       </InfoCardList>
     </SectionWrapper>
   );
 };
 
-export default CharacterList;
+export default EpisodeList;

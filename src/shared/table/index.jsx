@@ -1,12 +1,17 @@
+import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 
 function ListTable({ header, rows, handleRow }) {
 
-    console.log('rows', rows);
+    const [stateRows, setStateRows] = useState([]);
 
+    useEffect(() => {
+        console.log(rows);
+        setStateRows(rows);
+    }, [rows]);
     return (
         <>
-            {rows?.length ? (
+            {stateRows?.length ? (
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
@@ -16,9 +21,9 @@ function ListTable({ header, rows, handleRow }) {
                         </tr>
                     </thead>
                     <tbody >
-                        {rows.map((row, index) => (
+                        {stateRows.map((row, index) => (
                             <tr key={index} style={{ color: 'var(--blue)', cursor: 'pointer' }} onClick={() => handleRow(row[index])}>
-                                {row.map((cell, index)=>(
+                                {row.map((cell, index) => (
                                     <td key={index}>{cell}</td>
                                 ))}
                             </tr>

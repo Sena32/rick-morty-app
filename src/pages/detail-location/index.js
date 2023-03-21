@@ -4,10 +4,10 @@ import SectionWrapper from "../../shared/section-wrapper";
 import CustomSpinner from "../../shared/spinner/Spinner";
 import ListTable from "../../shared/table";
 import http from "../../utils/http";
-import "./DetailEpisode.css";
+import "./DetailLocation.css";
 
-const DetailEpisode = () => {
-  const [episode, setEpisode] = useState(null);
+const DetailLocation = () => {
+  const [location, setLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -41,18 +41,17 @@ const DetailEpisode = () => {
   };
 
   useEffect(() => {
-    const getEpisode = async () => {
+    const getLocation = async () => {
       setIsLoading(true);
       try {
-        const { data } = await http.get(`/episode/${id}`);
-        setEpisode(data);
+        const { data } = await http.get(`/location/${id}`);
+        setLocation(data);
       } catch (e) {
       } finally {
         setIsLoading(false);
       }
     };
-    getEpisode();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getLocation();
   }, [id]);
 
   if (isLoading) {
@@ -65,27 +64,28 @@ const DetailEpisode = () => {
 
   return (
     <SectionWrapper>
-      {episode ? (
-        <div className="container-episode">
+      {location ? (
+        <div className="container-location">
           <div className="container-content">
             <div className="content">
-              <h3 className="title">{episode.name}</h3>
-              <span>Data de Estréia: {episode.air_date ?? "--"}</span>
+              <h3 className="title">{location.name}</h3>
+              <span>Tipo: {location.type ?? "--"}</span>
+              <span>Dimensão: {location.dimension ?? "--"}</span>
             </div>
             <div className="list-content">
               <ListTable
-                header={{ title: "Título do Episódio" }}
-                rows={handleCharacter(episode.characters)}
+                header={["#","Nome do Personagem"]}
+                rows={handleCharacter(location.residents)}
                 handleRow={(id) => handleNext(id)}
               />
             </div>
           </div>
         </div>
       ) : (
-        <span>Nenhum Episódio foi carregado</span>
+        <span>Nenhuma localização foi carregada</span>
       )}
     </SectionWrapper>
   );
 };
 
-export default DetailEpisode;
+export default DetailLocation;

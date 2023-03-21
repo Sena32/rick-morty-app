@@ -1,0 +1,58 @@
+.container-episode {
+    position: relative;
+    color: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .container-card img{
+    border-radius: 10px;
+  }
+
+  .container-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .container-content .content span {
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  
+  .container-content .content .content-row {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+  }
+  
+  .container-content .content .content-row .status {
+    width: 10px;
+    height: 10px;
+    background: var(--gray);
+    border-radius: 50%;
+  }
+  
+  .status .green {
+    background: var(--green);
+  }
+  
+  .container-content .content .title {
+    color: var(--blue);
+    font-weight: 600;
+    font-size: 2rem;
+  }
+  
+  .info-card__link {
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: var(--blue);
+      text-decoration: none;
+    }
+  

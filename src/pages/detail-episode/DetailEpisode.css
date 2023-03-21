@@ -2,7 +2,7 @@
     position: relative;
     color: var(--white);
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .container-card img{
@@ -43,10 +43,16 @@
     background: var(--green);
   }
   
-  .container-content .content .title {
+  .container-content .title {
     color: var(--blue);
     font-weight: 600;
     font-size: 2rem;
+  }
+
+  .container-content .title-table {
+    color: var(--blue);
+    font-weight: 600;
+    font-size: 1.2rem;
   }
   
   .info-card__link {

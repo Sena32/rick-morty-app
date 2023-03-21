@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { statusToColor } from "../../helpers";
 import InfoCard from "../../shared/info-card";
 import InfoCardList from "../../shared/infor-card-list";
 import SectionWrapper from "../../shared/section-wrapper";
@@ -55,7 +56,7 @@ const CharacterList = () => {
                   {item.name}
                 </h5>
                 <div className="content-row">
-                  <div className={`status ${item.status==='human' && 'green'}`}></div>
+                  <div className={`status ${statusToColor(item.status)}`}></div>
                   <span>{item.status}</span>
                   <span>{item.species}</span>
                 </div>

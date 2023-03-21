@@ -31,3 +31,14 @@ main {
   margin: 0 auto;
   min-height: 100vh;
 }
+
+.green{
+  background: var(--green) !important;
+}
+
+.danger{
+  background: var(--danger) !important;
+}
+.gray{
+  background: var(--gray) !important;
+}

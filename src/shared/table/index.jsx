@@ -1,18 +1,12 @@
-import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
+import { isValidHttpUrl } from '../../helpers';
 
 function ListTable({ header, rows, handleRow }) {
 
-    const [stateRows, setStateRows] = useState([]);
-
-    useEffect(() => {
-        console.log(rows);
-        setStateRows(rows);
-    }, [rows]);
     return (
         <>
-            {stateRows?.length ? (
-                <Table striped bordered hover variant="dark">
+            {rows?.length ? (
+                <Table striped bordered hover variant="dark" >
                     <thead>
                         <tr>
                             {header.map((item, index) => (
@@ -21,10 +15,18 @@ function ListTable({ header, rows, handleRow }) {
                         </tr>
                     </thead>
                     <tbody >
-                        {stateRows.map((row, index) => (
-                            <tr key={index} style={{ color: 'var(--blue)', cursor: 'pointer' }} onClick={() => handleRow(row[index])}>
+                        {rows.map((row, index) => (
+                            <tr key={index} style={{ color: 'var(--blue)', cursor: 'pointer' }} onClick={() => handleRow(row)}>
                                 {row.map((cell, index) => (
-                                    <td key={index}>{cell}</td>
+
+                                    <>
+                                        {!isValidHttpUrl(cell) ? (
+                                            <td key={index} style={{verticalAlign: 'top'}}>{cell}</td>
+                                        ) : (
+                                            <td key={index}><img src={cell} className="fluid" style={{width: '10%'}}/></td>
+                                        )}
+                                    </>
+
                                 ))}
                             </tr>
                         ))}

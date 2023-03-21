@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatterEpisodesToTable, statusToColor } from "../../helpers";
 import InfoCard from "../../shared/info-card";
 import SectionWrapper from "../../shared/section-wrapper";
 import CustomSpinner from "../../shared/spinner/Spinner";
@@ -9,15 +10,32 @@ import "./DetailCharacter.css";
 
 const DetailCharacter = () => {
   const [character, setCharacter] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const handleEpisode = (episodes) => {
-    return episodes.map((ep) => (
-      [ep.replace(/\D/g, ""),
-      `Episódio ${ep.replace(/\D/g, "")}`]
-    ));
+  const getEpisodes = async (ids, cb) => {
+    try {
+      const { data } = await http.get(`/episode/${ids}`);
+      cb && cb(data, null);
+    } catch (e) {
+      cb && cb(null, e);
+    }
+  };
+
+  const handleEpisode = (characters) => {
+    const episodesArr = characters.map((el) => el.replace(/\D/g, ""));
+    const ids = episodesArr?.length ? episodesArr.join(", ") : null;
+    if (!ids) return [];
+    getEpisodes(ids, (data, error) => {
+      if (data) {
+        setEpisodes(data);
+      }
+      if (error) {
+        console.log(error);
+      }
+    });
   };
 
   const handleNext = (row) => {
@@ -29,6 +47,7 @@ const DetailCharacter = () => {
       setIsLoading(true);
       try {
         const { data } = await http.get(`/character/${id}`);
+        handleEpisode(data.episode);
         setCharacter(data);
       } catch (e) {
       } finally {
@@ -61,9 +80,7 @@ const DetailCharacter = () => {
               <h3 className="title">{character.name}</h3>
               <div className="content-row">
                 <div
-                  className={`status ${
-                    character.status === "human" && "green"
-                  }`}
+                  className={`status ${statusToColor(character.status)}`}
                 ></div>
                 <span>{character.status}</span>
                 <span>{character.species}</span>
@@ -74,7 +91,7 @@ const DetailCharacter = () => {
             <div className="list-content">
               <ListTable
                 header={["#","Título do Episódio"] }
-                rows={handleEpisode(character.episode)}
+                rows={formatterEpisodesToTable(episodes)}
                 handleRow={(row)=>handleNext(row)}
               />
             </div>

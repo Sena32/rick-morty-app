@@ -31,7 +31,7 @@ const EpisodeList = () => {
 
   if (isLoading) {
     return (
-      <SectionWrapper>
+      <SectionWrapper className="d-flex justify-content-center">
         <CustomSpinner/>
       </SectionWrapper>
     );

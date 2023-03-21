@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Button, ButtonGroup, Container, Row } from "react-bootstrap";
 import { statusToColor } from "../../helpers";
 import InfoCard from "../../shared/info-card";
 import InfoCardList from "../../shared/infor-card-list";
@@ -9,37 +10,57 @@ import "./CharacterList.css";
 
 const CharacterList = () => {
   const [character, setCharacter] = useState([]);
+  const [info, setInfo] = useState(null);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  useEffect(() => {
-    const getCharacter = async () => {
-      try {
-        setIsLoading(true);
-        setHasError(false);
-        const { data } = await http.get("/character");
-        setCharacter(data.results);
-      } catch (erro) {
-        if (erro.response.status === 404) {
-          setHasError(true);
-        }
-      } finally {
-        setIsLoading(false);
+  const getCharacter = async (page) => {
+    try {
+      setIsLoading(true);
+      setHasError(false);
+      const { data } = await http.get(
+        `/character/${page ? `?page=${page}` : ""}`
+      );
+      setCharacter(data.results);
+      setInfo(data.info);
+    } catch (erro) {
+      if (erro.response.status === 404) {
+        setHasError(true);
       }
-    };
-    getCharacter();
-  }, []);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleNext = async () => {
+    if (info.next) {
+      setPage(page + 1);
+    } else {
+      setPage(1);
+    }
+  };
+
+  const handlePrev = async () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  useEffect(() => {
+    getCharacter(page);
+  }, [page]);
 
   if (isLoading) {
     return (
-      <SectionWrapper>
-        <CustomSpinner/>
+      <SectionWrapper className="d-flex justify-content-center">
+        <CustomSpinner />
       </SectionWrapper>
     );
   }
 
   return (
-    <SectionWrapper>
+    <SectionWrapper className="d-flex">
       <InfoCardList>
         {hasError && <span>Nenhum personagem encontrado</span>}
         {character?.length ? (
@@ -52,9 +73,7 @@ const CharacterList = () => {
               key={item.id}
             >
               <div className="info-card__content">
-                <h5 className="title">
-                  {item.name}
-                </h5>
+                <h5 className="title">{item.name}</h5>
                 <div className="content-row">
                   <div className={`status ${statusToColor(item.status)}`}></div>
                   <span>{item.status}</span>
@@ -68,6 +87,16 @@ const CharacterList = () => {
           <p>Nenhum personagem encontrado</p>
         )}
       </InfoCardList>
+      <Row className="mt-4">
+        <ButtonGroup >
+          <Button variant="dark" className="py-3" onClick={handlePrev}>
+            Voltar
+          </Button>
+          <Button variant="dark" onClick={handleNext}>
+            Avançar
+          </Button>
+        </ButtonGroup>
+      </Row>
     </SectionWrapper>
   );
 };

@@ -32,6 +32,12 @@ main {
   min-height: 100vh;
 }
 
+button{
+  background: var(--blue) !important;
+  color: var(--white);
+  font-weight: 500  !important;
+}
+
 .green{
   background: var(--green) !important;
 }

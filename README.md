@@ -32,6 +32,8 @@ $ npm install
 $ npm start or
 $ npm run start
 ```
+##Very good, your app run in:
+  ```localhost:3000```
 <br />
 <div align="center">
   <small>Developed by Ailton de Sena Pinheiro - 05/2023</small>

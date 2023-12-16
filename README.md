@@ -7,7 +7,19 @@ App developed for challenge and studies based on api [The Rick and Morty API](ht
 -   [ ] Html/Css
 -   [ ] Bootstrap
 
-#### Installation
+#### Docker Install
+
+##### command for build image docker
+```make image-build```
+#### Clean generate image
+```make image-clean```
+
+#### Run your container
+```make container-start```
+
+#### Remove your container
+```make container-remove```
+#### Default Install
 
 ```bash
 $ npm install
